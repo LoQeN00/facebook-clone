@@ -1,0 +1,5 @@
+mutation {
+  updateNextUser(where: {id: "cl4e3fof96uxf0ctcszf47ny7"}, data: {friends: {connect: {where: {id: "cl4e44x2y6v760cuhtil5kv4q"}}}}) {
+    id
+  }
+}
