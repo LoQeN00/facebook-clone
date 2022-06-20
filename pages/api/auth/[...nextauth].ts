@@ -3,9 +3,12 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { GraphQLClient, gql } from 'graphql-request';
 import { hash, compare } from 'bcrypt';
 
-const client = new GraphQLClient(process.env.GRAPHCMS_ENDPOINT!, {
+console.log(process.env.GRAPHCMS_ENDPOINT);
+console.log(process.env.GRAPHCMS_TOKEN);
+
+const client = new GraphQLClient(process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!, {
   headers: {
-    Authorization: `Bearer ${process.env.GRAPHCMS_TOKEN!}`,
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHCMS_TOKEN!}`,
   },
 });
 
