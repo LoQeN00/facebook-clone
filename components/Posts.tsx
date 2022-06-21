@@ -43,7 +43,7 @@ export const Posts = (props: Props) => {
   }, [loading, postsData]);
 
   return (
-    <div className="w-[90%] max-w-3xl space-y-5 pb-32">
+    <div className="w-[90%] max-w-3xl space-y-5 pb-36 md:pb-32">
       {loadedPosts.current.map((post) => {
         return <SinglePost post={post} key={post.id} />;
       })}
