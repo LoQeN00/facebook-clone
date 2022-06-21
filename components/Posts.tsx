@@ -34,7 +34,7 @@ export const Posts = (props: Props) => {
           setContentIsLoading(true);
         }
       },
-      { root: null, rootMargin: '0px', threshold: 1.0 }
+      { root: null, rootMargin: '100px', threshold: 1.0 }
     );
 
     if (lastPostElementRef.current) {
