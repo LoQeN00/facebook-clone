@@ -127,7 +127,11 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
       )}
       {inputValue && (
         <div className="w-full flex justify-center items-center">
-          <button className="border-2 border-black py-2 px-4 rounded-3xl" onClick={() => createPost()}>
+          <button
+            disabled={imageIsLoading}
+            className="border-2 border-black py-2 px-4 rounded-3xl"
+            onClick={() => createPost()}
+          >
             Opublikuj
           </button>
         </div>
