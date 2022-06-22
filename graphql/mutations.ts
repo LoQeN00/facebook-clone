@@ -8,6 +8,7 @@ export const CREATE_POST_MUTATION_WITH_PHOTO = gql`
       slug
       image {
         url
+        mimeType
       }
       author {
         email

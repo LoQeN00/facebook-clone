@@ -43,6 +43,7 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const [publishPost] = useMutation(PUBLISH_POST_MUTATION, {
     async onCompleted(data) {
       if (postDataWithPhoto) {
+        console.log(postDataWithPhoto);
         if (loadedPosts.current.length > 0) {
           loadedPosts.current = [postDataWithPhoto?.createPost, ...loadedPosts.current];
           setPostsData((prevState) => [...prevState!.slice(0, 1)]);
