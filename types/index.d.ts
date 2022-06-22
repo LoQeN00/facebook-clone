@@ -13,3 +13,13 @@ export interface Post {
   title: string;
   id: string;
 }
+
+export interface Asset {
+  filename: string;
+  height: number;
+  id: string;
+  mimetype: string;
+  size: number;
+  url: string;
+  width: number;
+}

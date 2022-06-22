@@ -18,8 +18,6 @@ export const usePosts = (take: number, offset: number) => {
     },
   });
 
-  console.log(data);
-
   return {
     postsData,
     error,
