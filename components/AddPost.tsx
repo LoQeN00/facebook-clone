@@ -23,6 +23,7 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const { userData, userLoading, userError } = useContext(UserContext) as UserContextValues;
   const [inputValue, setInputValue] = useState<string>('');
   const [imageToPost, setImageToPost] = useState<Asset | null>(null);
+  const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [createPostWithPhoto, { data: postDataWithPhoto }] = useMutation(CREATE_POST_MUTATION_WITH_PHOTO, {
     async onCompleted(data) {
       const publishedImage = await publishImageToPost({ variables: { id: imageToPost?.id } });
@@ -84,8 +85,9 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
 
   const addImageToPost = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      setImageIsLoading(true);
       const data: Asset = await addAsset(e.target.files[0]);
-
+      setImageIsLoading(false);
       setImageToPost(data);
     }
   };
@@ -110,7 +112,7 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
           value={inputValue}
         />
       </div>
-
+      {imageIsLoading ? <div>Loading your asset ...</div> : null}
       {imageToPost && (
         <div>
           {imageToPost.mimetype === 'video/mp4' ? (
