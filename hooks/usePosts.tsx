@@ -6,7 +6,7 @@ import { Post } from '../types/index';
 export const usePosts = (take: number, offset: number) => {
   const [postsData, setPostsData] = useState<Array<Post> | undefined>(undefined);
 
-  const { data, error, loading } = useQuery<{ posts: Post[] }>(POSTS_DATA_QUERY, {
+  const { data, error, loading, refetch } = useQuery<{ posts: Post[] }>(POSTS_DATA_QUERY, {
     variables: {
       take,
       offset,
@@ -18,9 +18,13 @@ export const usePosts = (take: number, offset: number) => {
     },
   });
 
+  console.log(data);
+
   return {
     postsData,
     error,
     loading,
+    refetch,
+    setPostsData,
   };
 };

@@ -25,9 +25,11 @@ export const SinglePost = React.forwardRef<HTMLDivElement, Props>(({ post }: Pro
         <p>{post.author.email}</p>
       </div>
       <p className="text-md font-bold">{post.title}</p>
-      <div className="relative w-full h-[300px]">
-        <Image src={post.image?.url} layout="fill" alt={post.title} className="object-cover" />
-      </div>
+      {post.image?.url && (
+        <div className="relative w-full h-[300px]">
+          <Image src={post.image?.url} layout="fill" alt={post.title} className="object-cover" />
+        </div>
+      )}
     </div>
   );
 });
