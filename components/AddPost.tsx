@@ -83,8 +83,6 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const filePickerRef = useRef<HTMLInputElement | null>(null);
 
   const addImageToPost = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-
     if (e.target.files) {
       const data: Asset = await addAsset(e.target.files[0]);
 
@@ -115,7 +113,13 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
 
       {imageToPost && (
         <div>
-          <img src={imageToPost.url} alt="post image"></img>
+          {imageToPost.mimetype === 'video/mp4' ? (
+            <video controls>
+              <source src={imageToPost.url} type="video/mp4" />
+            </video>
+          ) : (
+            <img src={imageToPost.url} alt="post image"></img>
+          )}
         </div>
       )}
       {inputValue && (

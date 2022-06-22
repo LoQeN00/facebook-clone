@@ -8,6 +8,7 @@ export interface Post {
   date: string;
   image: {
     url: string;
+    mimeType: string;
   };
   slug: string;
   title: string;

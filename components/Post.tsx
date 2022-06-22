@@ -27,7 +27,13 @@ export const SinglePost = React.forwardRef<HTMLDivElement, Props>(({ post }: Pro
       <p className="text-md font-bold">{post?.title}</p>
       {post?.image?.url && (
         <div className="relative w-full h-[300px]">
-          <Image src={post?.image?.url} layout="fill" alt={post?.title} className="object-cover" />
+          {post.image.mimeType === 'video/mp4' ? (
+            <video controls className="w-full h-full">
+              <source src={post.image.url} type="video/mp4" />
+            </video>
+          ) : (
+            <Image src={post?.image?.url} layout="fill" alt={post?.title} className="object-cover" />
+          )}
         </div>
       )}
     </div>

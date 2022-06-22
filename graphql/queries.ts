@@ -20,6 +20,7 @@ export const POSTS_DATA_QUERY = gql`
       slug
       image {
         url
+        mimeType
       }
       author {
         email
