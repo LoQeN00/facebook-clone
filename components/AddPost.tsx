@@ -21,7 +21,7 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
     async onCompleted(data) {
       if (loadedPosts.current.length > 0) {
         loadedPosts.current = [postData.createPost, ...loadedPosts.current];
-        setPostsData((prevState) => [...prevState!]);
+        setPostsData((prevState) => [...prevState!.slice(0, 1)]);
         return;
       }
 
