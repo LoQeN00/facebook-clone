@@ -18,6 +18,17 @@ export const CREATE_POST_MUTATION_WITH_PHOTO = gql`
           url
         }
       }
+      reactions {
+        id
+        type
+        nextUser {
+          id
+          email
+          userImage {
+            url
+          }
+        }
+      }
       date
     }
   }
@@ -34,6 +45,17 @@ export const CREATE_POST_MUTATION_WITHOUT_PHOTO = gql`
         email
         userImage {
           url
+        }
+      }
+      reactions {
+        id
+        type
+        nextUser {
+          id
+          email
+          userImage {
+            url
+          }
         }
       }
       date

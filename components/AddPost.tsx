@@ -76,8 +76,8 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   });
 
   const createPost = () => {
-    setImageIsLoading(true);
     if (imageToPost) {
+      setImageIsLoading(true);
       createPostWithPhoto({
         variables: { title: inputValue, id: userData?.id, imageId: imageToPost ? imageToPost?.id : null },
       });
