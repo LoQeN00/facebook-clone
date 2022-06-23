@@ -47,16 +47,24 @@ export const Posts = (props: Props) => {
     <div className="w-[90%] max-w-3xl space-y-5 pb-36 md:pb-32">
       <AddPost loadedPosts={loadedPosts} setPostsData={setPostsData} postsData={postsData} />
       {loadedPosts.current.map((post) => {
-        return <SinglePost post={post} key={post?.id} />;
+        return <SinglePost post={post} key={post?.id} loadedPosts={loadedPosts} setPostsData={setPostsData} />;
       })}
       {loading
         ? null
         : postsData?.map((post: Post, index) => {
             if (index === postsData.length - 1) {
-              return <SinglePost post={post} key={post?.id} ref={lastPostElementRef} />;
+              return (
+                <SinglePost
+                  post={post}
+                  key={post?.id}
+                  ref={lastPostElementRef}
+                  loadedPosts={loadedPosts}
+                  setPostsData={setPostsData}
+                />
+              );
             }
 
-            return <SinglePost post={post} key={post?.id} />;
+            return <SinglePost post={post} key={post?.id} loadedPosts={loadedPosts} setPostsData={setPostsData} />;
           })}
       {contentIsLoading && <div>Loading ...</div>}
     </div>

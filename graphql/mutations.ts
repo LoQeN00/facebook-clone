@@ -7,10 +7,12 @@ export const CREATE_POST_MUTATION_WITH_PHOTO = gql`
       title
       slug
       image {
+        id
         url
         mimeType
       }
       author {
+        id
         email
         userImage {
           url
@@ -28,6 +30,7 @@ export const CREATE_POST_MUTATION_WITHOUT_PHOTO = gql`
       title
       slug
       author {
+        id
         email
         userImage {
           url
@@ -49,6 +52,22 @@ export const PUBLISH_POST_MUTATION = gql`
 export const PUBLISH_ASSET_MUTATION = gql`
   mutation ($id: ID!) {
     publishAsset(where: { id: $id }, to: PUBLISHED) {
+      id
+    }
+  }
+`;
+
+export const DELETE_POST_MUTATION = gql`
+  mutation ($id: ID!) {
+    deletePost(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const DELETE_ASSET_MUTATION = gql`
+  mutation ($id: ID!) {
+    deleteAsset(where: { id: $id }) {
       id
     }
   }

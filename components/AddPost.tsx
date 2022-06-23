@@ -21,6 +21,7 @@ type Props = {
 
 export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const { userData, userLoading, userError } = useContext(UserContext) as UserContextValues;
+  const [imageLoadingError, setImageLoadingError] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState<string>('');
   const [imageToPost, setImageToPost] = useState<Asset | null>(null);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
@@ -87,9 +88,13 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const addImageToPost = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImageIsLoading(true);
-      const data: Asset = await addAsset(e.target.files[0]);
-      setImageIsLoading(false);
-      setImageToPost(data);
+      try {
+        const data: Asset = await addAsset(e.target.files[0]);
+        setImageIsLoading(false);
+        setImageToPost(data);
+      } catch (e) {
+        setImageLoadingError('Something went wrong..., try again');
+      }
     }
   };
 
@@ -113,7 +118,8 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
           value={inputValue}
         />
       </div>
-      {imageIsLoading ? <div>Loading your asset ...</div> : null}
+      {imageIsLoading && <div>Loading your asset ...</div>}
+      {imageLoadingError && <div>{imageLoadingError}</div>}
       {imageToPost && (
         <div>
           {imageToPost.mimetype === 'video/mp4' ? (

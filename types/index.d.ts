@@ -1,12 +1,14 @@
 export interface Post {
   author: {
     email: string;
+    id: string;
     userImage: {
       url: string;
     };
   };
   date: string;
   image: {
+    id: string;
     url: string;
     mimeType: string;
   };
