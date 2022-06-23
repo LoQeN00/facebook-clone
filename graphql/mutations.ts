@@ -41,6 +41,40 @@ export const CREATE_POST_MUTATION_WITHOUT_PHOTO = gql`
   }
 `;
 
+export const ADD_REACTION_MUTATION = gql`
+  mutation ($type: String!, $userId: ID!, $postId: ID!) {
+    createReaction(data: { type: $type, nextUser: { connect: { id: $userId } }, post: { connect: { id: $postId } } }) {
+      id
+      type
+    }
+  }
+`;
+
+export const PUBLISH_REACTION_MUTATION = gql`
+  mutation ($id: ID!) {
+    publishReaction(where: { id: $id }, to: PUBLISHED) {
+      id
+      type
+      nextUser {
+        id
+        email
+        userImage {
+          url
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_REACTION_MUTATION = gql`
+  mutation ($reactionId: ID!) {
+    deleteReaction(where: { id: $reactionId }) {
+      id
+      type
+    }
+  }
+`;
+
 export const PUBLISH_POST_MUTATION = gql`
   mutation ($id: ID!) {
     publishPost(where: { id: $id }, to: PUBLISHED) {

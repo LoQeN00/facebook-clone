@@ -30,6 +30,17 @@ export const POSTS_DATA_QUERY = gql`
           url
         }
       }
+      reactions {
+        id
+        type
+        nextUser {
+          id
+          email
+          userImage {
+            url
+          }
+        }
+      }
       date
     }
   }

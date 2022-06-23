@@ -15,6 +15,7 @@ export interface Post {
   slug: string;
   title: string;
   id: string;
+  reactions: Array<{ id: string; type: string; nextUser: { email: string; id: string; userImage: { url: string } } }>;
 }
 
 export interface Asset {

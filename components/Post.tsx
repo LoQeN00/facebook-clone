@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useMutation } from '@apollo/client';
 import { DELETE_POST_MUTATION, DELETE_ASSET_MUTATION } from '../graphql/mutations';
+import { Reactions } from '../components/Reactions';
 
 type Props = {
   post: Post;
@@ -59,6 +60,7 @@ export const SinglePost = React.forwardRef<HTMLDivElement, Props>(({ post, setPo
           )}
         </div>
       )}
+      <Reactions post={post} />
     </div>
   );
 });
