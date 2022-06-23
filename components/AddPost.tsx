@@ -25,11 +25,13 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [imageToPost, setImageToPost] = useState<Asset | null>(null);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
+  const [postSending, setPostSending] = useState<boolean>(false);
   const [createPostWithPhoto, { data: postDataWithPhoto }] = useMutation(CREATE_POST_MUTATION_WITH_PHOTO, {
     async onCompleted(data) {
       const publishedImage = await publishImageToPost({ variables: { id: imageToPost?.id } });
       await publishPost({ variables: { id: data.createPost.id } });
       removeImage();
+      setPostSending(false);
       setInputValue('');
     },
   });
@@ -37,6 +39,7 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const [createPostWithoutPhoto, { data: postDataWithoutPhoto }] = useMutation(CREATE_POST_MUTATION_WITHOUT_PHOTO, {
     async onCompleted(data) {
       await publishPost({ variables: { id: data.createPost.id } });
+      setPostSending(false);
       setInputValue('');
     },
   });
@@ -73,6 +76,7 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   });
 
   const createPost = () => {
+    setImageIsLoading(true);
     if (imageToPost) {
       createPostWithPhoto({
         variables: { title: inputValue, id: userData?.id, imageId: imageToPost ? imageToPost?.id : null },
@@ -134,7 +138,7 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
       {inputValue && (
         <div className="w-full flex justify-center items-center">
           <button
-            disabled={imageIsLoading}
+            disabled={imageIsLoading || postSending}
             className="border-2 border-black py-2 px-4 rounded-3xl"
             onClick={() => createPost()}
           >
