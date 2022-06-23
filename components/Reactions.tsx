@@ -20,6 +20,7 @@ export const Reactions = ({ post }: Props) => {
   const [frozenCount, setFrozenCount] = useState(
     post.reactions.filter((reaction) => reaction.type === 'frozen').length
   );
+  const [reactionLoading, setReactionLoading] = useState<boolean>(false);
 
   const [hotCount, setHotCount] = useState(post.reactions.filter((reaction) => reaction.type === 'hot').length);
 
@@ -32,6 +33,7 @@ export const Reactions = ({ post }: Props) => {
         setHotCount((prev) => prev + 1);
         setReaction('hot');
       }
+      setReactionLoading(false);
       setUserReaction(data.publishReaction);
     },
   });
@@ -47,12 +49,12 @@ export const Reactions = ({ post }: Props) => {
       } else {
         setHotCount((prev) => prev - 1);
       }
+      setReactionLoading(false);
     },
   });
 
   const checkReaction = (type: string) => {
-    console.log(type);
-    console.log(reaction);
+    setReactionLoading(true);
     if (reaction === type) {
       deleteReaction({ variables: { reactionId: userReaction?.id } });
       setReaction(null);
@@ -65,20 +67,22 @@ export const Reactions = ({ post }: Props) => {
     addReaction({ variables: { type, userId: session?.user.userId, postId: post.id } });
   };
 
+  console.log(reactionLoading);
+
   return (
     <div className="w-full  flex justify-evenly items-center">
-      <div className="cursor-pointer" onClick={() => checkReaction('frozen')}>
+      <button className="cursor-pointer" onClick={() => checkReaction('frozen')} disabled={reactionLoading}>
         <div className="text-3xl">
           <span className="text-2xl">{frozenCount > 0 && frozenCount}</span>{' '}
           <span className={`inline-block ${reaction === 'frozen' && 'bg-gray-200 p-2 rounded-xl'}`}>🥶</span>
         </div>
-      </div>
-      <div className="cursor-pointer" onClick={() => checkReaction('hot')}>
+      </button>
+      <button className="cursor-pointer" onClick={() => checkReaction('hot')} disabled={reactionLoading}>
         <div className="text-3xl">
           <span className="text-2xl">{hotCount > 0 && hotCount}</span>{' '}
           <span className={`inline-block ${reaction === 'hot' && 'bg-gray-200 p-2 rounded-xl'}`}>🥵</span>
         </div>
-      </div>
+      </button>
       <div>
         <Comment className="w-9 h-9" />
       </div>
