@@ -33,8 +33,9 @@ export const Reactions = ({ post }: Props) => {
         setHotCount((prev) => prev + 1);
         setReaction('hot');
       }
-      setReactionLoading(false);
+
       setUserReaction(data.publishReaction);
+      setReactionLoading(false);
     },
   });
   const [addReaction] = useMutation(ADD_REACTION_MUTATION, {
@@ -44,9 +45,9 @@ export const Reactions = ({ post }: Props) => {
   });
   const [deleteReaction] = useMutation(DELETE_REACTION_MUTATION, {
     onCompleted(data) {
-      if (data.deleteReaction.type === 'frozen') {
+      if (data.deleteReaction?.type === 'frozen') {
         setFrozenCount((prev) => prev - 1);
-      } else {
+      } else if (data.deleteReaction?.type === 'hot') {
         setHotCount((prev) => prev - 1);
       }
       setReactionLoading(false);
@@ -67,7 +68,8 @@ export const Reactions = ({ post }: Props) => {
     addReaction({ variables: { type, userId: session?.user.userId, postId: post.id } });
   };
 
-  console.log(reactionLoading);
+  console.log(hotCount);
+  console.log(frozenCount);
 
   return (
     <div className="w-full  flex justify-evenly items-center">
