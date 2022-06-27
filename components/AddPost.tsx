@@ -14,12 +14,10 @@ import { Post, Asset } from '../types/index';
 import { addAsset } from '../lib/addAsset';
 
 type Props = {
-  loadedPosts: React.MutableRefObject<[] | Post[]>;
-  setPostsData: React.Dispatch<React.SetStateAction<Post[] | undefined>>;
-  postsData: Post[] | undefined;
+  setNewlyAddedPosts: React.Dispatch<React.SetStateAction<Post[] | []>>;
 };
 
-export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
+export const AddPost = ({ setNewlyAddedPosts }: Props) => {
   const { userData, userLoading, userError } = useContext(UserContext) as UserContextValues;
   const [imageLoadingError, setImageLoadingError] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState<string>('');
@@ -47,37 +45,15 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
   const [publishPost] = useMutation(PUBLISH_POST_MUTATION, {
     async onCompleted(data) {
       if (postDataWithPhoto) {
-        console.log(postDataWithPhoto);
-        if (loadedPosts.current.length > 0) {
-          loadedPosts.current = [postDataWithPhoto?.createPost, ...loadedPosts.current];
-          setPostsData((prevState) => [...prevState!.slice(0, 1)]);
-          return;
-        }
-
-        if (postsData!.length > 0) {
-          loadedPosts.current = [postDataWithPhoto?.createPost, ...loadedPosts.current];
-          setPostsData((prevState) => [...prevState!.slice(0, 1)]);
-          return;
-        }
+        setNewlyAddedPosts((prevState) => [postDataWithPhoto?.createPost, ...prevState]);
       } else if (postDataWithoutPhoto) {
-        if (loadedPosts.current.length > 0) {
-          loadedPosts.current = [postDataWithoutPhoto?.createPost, ...loadedPosts.current];
-          setPostsData((prevState) => [...prevState!.slice(0, 1)]);
-          return;
-        }
-
-        if (postsData!.length > 0) {
-          loadedPosts.current = [postDataWithoutPhoto?.createPost, ...loadedPosts.current];
-          setPostsData((prevState) => [...prevState!.slice(0, 1)]);
-          return;
-        }
+        setNewlyAddedPosts((prevState) => [postDataWithoutPhoto?.createPost, ...prevState]);
       }
     },
   });
 
   const createPost = () => {
     if (imageToPost) {
-      setImageIsLoading(true);
       createPostWithPhoto({
         variables: { title: inputValue, id: userData?.id, imageId: imageToPost ? imageToPost?.id : null },
       });
@@ -135,17 +111,18 @@ export const AddPost = ({ loadedPosts, setPostsData, postsData }: Props) => {
           )}
         </div>
       )}
-      {inputValue && (
-        <div className="w-full flex justify-center items-center">
-          <button
-            disabled={imageIsLoading || postSending}
-            className="border-2 border-black py-2 px-4 rounded-3xl"
-            onClick={() => createPost()}
-          >
-            Opublikuj
-          </button>
-        </div>
-      )}
+      {inputValue ||
+        (imageToPost && (
+          <div className="w-full flex justify-center items-center">
+            <button
+              disabled={imageIsLoading || postSending}
+              className="border-2 border-black py-2 px-4 rounded-3xl"
+              onClick={() => createPost()}
+            >
+              Opublikuj
+            </button>
+          </div>
+        ))}
       <div className="h-[1px] bg-gray-200 w-full"></div>
       <div className="flex justify-evenly">
         <div className="flex space-x-3 hover:bg-gray-200 px-4 py-2 rounded-2xl transition ease-in-out cursor-pointer">

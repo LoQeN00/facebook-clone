@@ -101,6 +101,27 @@ export const PUBLISH_POST_MUTATION = gql`
   mutation ($id: ID!) {
     publishPost(where: { id: $id }, to: PUBLISHED) {
       id
+      title
+      slug
+      author {
+        id
+        email
+        userImage {
+          url
+        }
+      }
+      reactions {
+        id
+        type
+        nextUser {
+          id
+          email
+          userImage {
+            url
+          }
+        }
+      }
+      date
     }
   }
 `;

@@ -13,7 +13,20 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          posts: {
+            keyArgs: false,
+            merge(existing = [], incoming) {
+              return [...incoming];
+            },
+          },
+        },
+      },
+    },
+  }),
   link: concat(authMiddleware, new HttpLink({ uri: process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT })),
 });
 
